@@ -2,7 +2,7 @@
 * 原文作者 : [Bolot Kerimbaev](https://www.bignerdranch.com/about-us/nerds/bolot-kerimbaev/)
 * 译文出自 : [猫友会翻译计划](https://github.com/maoyouhui/translation)
 * 译者 : [尹佳冀](http://www.taijicoder.com/)
-* 校对者: 
+* 校对者: [李叶伟](mailto:leeyevi@gmail.com)
 
 # iOS10和macOS中的神经网络
 
@@ -16,22 +16,22 @@
 但是现在我们有了第一方的神经网络的直接支持：在WWDC 2016上，苹果推出了神经网络的API，而且是两个，称为Basic Neural Network Subroutines（BNNS）和 Convolutional Neural Networks（CNN）。
 
 ## 机器学习和神经网络
-AI先锋阿瑟·塞缪尔定义了机器学习是一个“在不明确去编程的情况下给予电脑学习能力的研究领域。”机器学习系统经常对不能使用传统模型来简单描述的数据有用处。
+AI先驱[阿瑟·塞缪尔](https://en.wikipedia.org/wiki/Arthur_Samuel)定义了[机器学习](https://en.wikipedia.org/wiki/Machine_learning)是一个“在没有经过显式编码的情况下赋予电脑学习能力的研究领域。”机器学习系统可以很好的用来处理一些不能使用传统模型来简单描述的数据。
 
-比如，我们可以很容易地编写一个计算房子平方英尺（面积）的程序，因为提供了所有的房间和其他空间的尺寸和形状，但对于计算房子的价值就不是我们可以通过一个公式计算能解决的了。机器学习系统则不然，非常适合这样的问题。通过提供已知的真实世界的数据给系统，如市场价值，房子的大小，卧室数量等，我们可以训练它去预测价格。
+例如，我们可以很容易地编写一个计算房子平方英尺（面积）的程序，因为提供了所有的房间和其他空间的尺寸和形状，但对于计算房子的价值就不是我们可以通过一个公式计算能解决的了。但是，机器学习系统可以很好地解决这样的问题。通过提供已知的真实世界的数据给系统，如市场价值，房子的大小，卧室数量等，我们可以训练它去预测价格。
 
-神经网络是构建机器学习系统最常用的模型之一。虽然神经网络的数学基础从20世纪40年代起已经发展超过了半个世纪，20世纪80年代并行计算让它更为可行，2000s的对 深度学习的兴趣才激起了神经网络的复兴潮流。
+神经网络是构建机器学习系统最常用的模型之一。虽然神经网络的数学基础从20世纪40年代起已经发展超过了半个世纪，直到20世纪80年代并行计算的出现才让它更为可行，21世纪初对[深度学习](https://en.wikipedia.org/wiki/Deep_learning)的兴起才激起了神经网络的复兴潮流。
 
-神经网络由多个层（layer）构成的，其中每一层由一个或多个节点（node）组成。最简单的神经网络有三层：输入层，隐藏层和输出层。输入层节点可以表示为图像中的各个像素或者一些其他的参数。输出层节点是通常是分类的结果，如果我们试图自动检测照片的内容，分类的结果就是“狗”或“猫”隐藏层节点被配置为对输入执行操作或者应用激活函数（activation function）。
+神经网络由多个层（layer）构成的，其中每一层由一个或多个节点（node）组成。最简单的神经网络有三层：输入层，隐含层和输出层。输入层节点可以表示为图像中的各个像素或者一些其他的参数。输出层节点是通常是分类的结果，如果我们试图自动检测照片的内容，分类的结果就是“狗”或“猫”。隐含层节点被配置为对输入执行操作或者应用激活函数（activation function）。
 
 ![神经网络图](https://www.bignerdranch.com/img/blog/2016/06/neural_network_diagram.png)
 
 ## 层的类型
 三种常见的层是 池化层（pooling layer），卷积层（convolution layer）和全连接层（fully connected layer）。
 
-池化层，典型地是使用输入的最大值或平均值，归并数据，来缩减大小。一系列的卷积层和池化层连起来逐步把一张照片提炼成层次越来越高的特征的集合。
+池化层，典型地是使用输入的最大值或平均值，归并数据，来减少数据量的同时保留有用信息。一系列的卷积层和池化层连起来逐步把一张照片提取成层次越来越高的特征的集合。
 
-卷积层通过应用卷积矩阵到图像的每个像素上来变换图像。如果你使用过Pixelmator或Photoshop滤镜，你很有可能已经用过了卷积矩阵。卷积矩阵通常是一个应用到输入图像像素上的，为了计算输出图像新的像素值的3×3或5×5矩阵。为了获得输出像素的值，我们就乘上原图像中的像素值，并计算平均值。
+卷积层通过对图像上的每个像素进行卷积操作来实现图像变换。如果你使用过Pixelmator或Photoshop滤镜，你很有可能已经用过了卷积矩阵运算。卷积矩阵通常是一个应用到输入图像像素邻域内的，为了计算输出图像新的像素值的3×3或5×5矩阵。为了获得输出像素的值，我们就乘上原图像中的窗口内邻域像素值，并计算平均值。
 
 例如，这个卷积矩阵就会使图像模糊：
 
@@ -45,21 +45,22 @@ AI先锋阿瑟·塞缪尔定义了机器学习是一个“在不明确去编程�
 	0 -1 0
 神经网络的卷积层使用卷积矩阵来处理输入并为下一层生成数据，比如提取图像中的新的特征，像边缘。
 
-一个全连接的层可以认为是一个滤镜尺寸和原始图像一样的卷积层。换句话说，你可以认为全连接层是一个会分配权重到图像各个像素，算出平均值，最后给出了一个输出值的函数。
+一个全连接的层可以认为是一个和原始图像一样大小的滤波器卷积层。换句话说，你可以认为全连接层是一个会分配权重到图像各个像素，算出平均值，最后给出了一个输出值的函数。
+
 
 ## 训练和推理
-每一层需要配置适当的参数。例如，卷积层需要输入和输出图像（尺寸，通道的数目等）的信息，以及卷积层的参数（kernel size，矩阵等）。全连接层则是由输入和输出向量，激活函数，和权重来定义的。
+每一层需要配置适当的参数。例如，卷积层需要输入和输出图像（尺寸，通道的数目等）的信息，以及卷积层的参数（内核大小，矩阵等）。全连接层则是由输入和输出向量，激活函数，和权重来定义的。
 
-要获得这些参数，神经网络就要被训练。这是通过向神经网络传递输入，确定输出，衡量错误（即定义实际结果和预测结果差距可以有多远）来完成的，并通过反向传播（backpropagation）来调整权重。训练神经网络可能需要成百，上千甚至数百万的样例。
+训练神经网络就是要获得这些参数的过程。这是通过向神经网络传递输入，确定输出，误差测量（即定义实际结果和预测结果差值有多大）来完成的，并通过反向传播（backpropagation）来调整权重。训练神经网络可能需要成百，上千甚至数百万的样本。
 
-目前，苹果公司新的机器学习API，可以构建的神经网络，只能做推理，不能做训练。好消息是， Big Nerd Ranch 可以做到 。
+目前，苹果公司新的机器学习API，可以构建的神经网络，只能做推理，不能做训练。好消息是， [Big Nerd Ranch 可以做到](https://training.bignerdranch.com/classes/advanced-ios-bootcamp)。
 
 ##Accelerate：BNNS
-第一个新的API是Accelerate框架的一部分，被称为BNNS，代表Basic Neural Network Subroutines 。BNNS作为BLAS（Basic Linear Algebra Subroutines）的补充，被用在第三方的机器学习应用中。
+第一个新的API是Accelerate框架的一部分，被称为BNNS，代表[Basic Neural Network Subroutines](https://developer.apple.com/reference/accelerate/1912851-bnns) 。BNNS作为BLAS（Basic Linear Algebra Subroutines）的补充，被用在机器学习第三方应用中。
 
-BNNS定义的层在B58NNSFilter类中。Accelerate支持三种类型的层：卷积层（由BNNSFilterCreateConvolutionLayer函数创建），完全连接层（ BNNSFilterCreateFullyConnectedLayer ）和池化层（ BNNSFilterCreatePoolingLayer ）。
+BNNS定义的层在BNNSFilter类中。Accelerate支持三种类型的层：卷积层（由BNNSFilterCreateConvolutionLayer函数创建），全连接层（ BNNSFilterCreateFullyConnectedLayer ）和池化层（ BNNSFilterCreatePoolingLayer ）。
 
-MNIST数据库是一个已知的手写数字的数据集，包含了数以万计的被扫描的和调整大小到20*20像素的图像。
+[MNIST数据库](https://en.wikipedia.org/wiki/MNIST_database)是一个广为人知的手写数字的数据集，包含了数以万计的被扫描的和调整大小到20*20像素的图像。
 
 一种处理图像数据的方法是将图像转换成向量，并把它传给一个全连接层。对于MNIST数据，一个20×20的图像会成为400个值的向量。下面就展示了手写的数字“1”怎样转换到向量：
 ![手写转换为矢量](https://www.bignerdranch.com/img/blog/2016/06/handwritten_one_vector.png)
@@ -116,9 +117,9 @@ MNIST数据库是一个已知的手写数字的数据集，包含了数以万计
 
 ## Metal！
 
-Metal框架能做的更多吗？事实上，确实，因为第二个神经网络API是Metal Performance Shaders（MPS）框架的一部分。Acclerate是在CPU上执行快速计算框架，而Metal则把GPU使用到了极致。Metal中的叫法是CNN，就是卷积神经网络 。
+Metal框架能做的更多吗？事实上，确实，因为第二个神经网络API是Metal Performance Shaders（MPS）框架的一部分。Acclerate是在CPU上执行快速计算框架，而Metal则把GPU使用到了极致。Metal中的叫法是CNN，就是[卷积神经网络](https://en.wikipedia.org/wiki/Convolutional_neural_network)。
 
-MPS拥有一个类似的API。创建一个卷积层需要使用MPSCNNConvolutionDescriptor和MPSCNNConvolution功能。对于pooling层， MPSCNNPoolingMax会提供的参数。完全连接层是由MPSCNNFullyConnectedhan'shu。激活函数是由以下子类来定义MPSCNNNeuron ： MPSCNNNeuronLinear ， MPSCNNNeuronReLU ， MPSCNNNeuronSigmoid ， MPSCNNNeuronTanH ， MPSCNNNeuronAbsolute 。
+MPS拥有一个类似的API。创建一个卷积层需要使用MPSCNNConvolutionDescriptor和MPSCNNConvolution功能。对于池化层， MPSCNNPoolingMax会提供的参数。全连接层是由MPSCNNFullyConnected函数。激活函数是由以下子类来定义MPSCNNNeuron ： MPSCNNNeuronLinear ， MPSCNNNeuronReLU ， MPSCNNNeuronSigmoid ， MPSCNNNeuronTanH ， MPSCNNNeuronAbsolute 。
 
 ## BNNS和CNN对比
 
